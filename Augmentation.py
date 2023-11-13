@@ -258,13 +258,13 @@ if __name__ == '__main__':
         images = Path(args.path).glob('**/*.JPG')
         for image in tqdm(images, desc=f'Copying images from {args.path} \
                 to augmented_directory', total=len(os.listdir(args.path))):
-            save_path = Path('augmented_directory', image.parent.stem)
+            save_path = Path('data/images/augmented_directory/', image.parent.stem)
             os.makedirs(save_path, exist_ok=True)
             plt.imsave(Path(save_path, image.name), cv2.imread(str(image)))
 
         largest_directory = max(
             Path(
-                'augmented_directory').iterdir(),
+                'data/images/augmented_directory/').iterdir(),
             key=lambda x: len(list(x.iterdir()))
         )
         len_largest_directory = len(list(largest_directory.iterdir()))
@@ -281,7 +281,7 @@ if __name__ == '__main__':
             for image in images:
                 aug = Augmentation()
                 img = cv2.imread(str(image))
-                save_path = Path('augmented_directory', image.parent.stem)
+                save_path = Path('data/images/augmented_directory/', image.parent.stem)
                 os.makedirs(save_path, exist_ok=True)
                 plt.imsave(Path(save_path, image.name), img)
 

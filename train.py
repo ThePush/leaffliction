@@ -104,7 +104,7 @@ if __name__ == '__main__':
     parser.add_argument(
         'path',
         type=str,
-        default=Path('data/images/'),
+        default=Path('data/images/training/'),
         help='Path to image dataset to train the model on'
     )
     args = parser.parse_args()
@@ -121,8 +121,8 @@ if __name__ == '__main__':
         logger.info('Augmenting images')
         subprocess.run(['python3', 'Augmentation.py', args.path])
         logger.info('Image augmentation done')
-        model = train_model(Path('augmented_directory'))
-        zip_model(Path('augmented_directory'), model)
+        model = train_model(Path('data/images/augmented_directory/'))
+        zip_model(Path('data/images/augmented_directory/'), model)
     except Exception as e:
         logger.error(e)
         sys.exit(1)
