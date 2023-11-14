@@ -3,3 +3,5 @@ images/
 test_images/
 leaves.zip
 __pycache__/
+training/
+validation/

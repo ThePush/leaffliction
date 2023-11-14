@@ -39,7 +39,7 @@ def train_model(dataset_train_path: Path) -> str:
         logger.info('Loading dataset done')
         logger.info('Training model')
         learn = vision_learner(data, models.vgg19_bn, metrics=accuracy)
-        learn.fit(2)
+        #learn.fit(2)
         logger.info('Success')
     except Exception as e:
         logger.error('Error while training model')
@@ -54,7 +54,7 @@ def train_model(dataset_train_path: Path) -> str:
         while os.path.isfile(
             Path(
                 learn.path,
-                f'{dataset_name}_vgg19_v{version}.pkl')
+                f'{dataset_name}_{learn.model.name}_v{version}.pkl')
         ):
             version += 1
         model_to_save = f'{dataset_name}_vgg19_v{version}.pkl'
