@@ -54,7 +54,7 @@ def train_model(dataset_train_path: Path) -> str:
         while os.path.isfile(
             Path(
                 learn.path,
-                f'{dataset_name}_{learn.model.name}_v{version}.pkl')
+                f'{dataset_name}_vgg19_v{version}.pkl')
         ):
             version += 1
         model_to_save = f'{dataset_name}_vgg19_v{version}.pkl'
@@ -71,7 +71,7 @@ def zip_model(
     model_to_save: Path
 ) -> None:
     try:
-        model_path = Path('data', 'models', dataset_path, model_to_save)
+        model_path = Path('data', 'models', dataset_path.stem, model_to_save)
         with ZipFile(model_path.with_suffix('.zip'), 'w') as zipObj:
             logger.info(f'Zipping {model_to_save}')
             zipObj.write(model_path, model_to_save.name)
