@@ -43,7 +43,11 @@ def unzip_model(model_path: Path = Path("leaffliction-files.zip")) -> Path:
 
 
 def print_prediction(
-    image_path: Path, pred_class: str, pred_idx: int, outputs: torch.Tensor, truth: str
+    image_path: Path,
+    pred_class: str,
+    pred_idx: int,
+    outputs: torch.Tensor,
+    truth: str
 ) -> None:
     print("---------------------------")
     print(f"Image name: {image_path.stem}")
@@ -59,7 +63,13 @@ def plot_confusion_matrix(y_true: list, y_pred: list) -> None:
     ax.matshow(cm, cmap=plt.cm.Blues, alpha=0.3)
     for i in range(cm.shape[0]):
         for j in range(cm.shape[1]):
-            ax.text(x=j, y=i, s=cm[i, j], va="center", ha="center", size="xx-large")
+            ax.text(
+                x=j,
+                y=i,
+                s=cm[i, j],
+                va="center",
+                ha="center",
+                size="xx-large")
     plt.xlabel("Predictions", fontsize=18)
     plt.ylabel("Actuals", fontsize=18)
     plt.title("Confusion Matrix", fontsize=18)

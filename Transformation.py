@@ -1,8 +1,5 @@
-import cv2
 import sys
 from plantcv import plantcv as pcv
-import matplotlib.pyplot as plt
-import numpy as np
 import argparse
 from pathlib import Path
 import os
@@ -94,11 +91,15 @@ class ImageTransformation:
             gray_img=masked_a, threshold=115, max_value=255, object_type="dark"
         )
         maskeda_thresh1 = pcv.threshold.binary(
-            gray_img=masked_a, threshold=135, max_value=255, object_type="light"
-        )
+            gray_img=masked_a,
+            threshold=135,
+            max_value=255,
+            object_type="light")
         maskedb_thresh = pcv.threshold.binary(
-            gray_img=masked_b, threshold=128, max_value=255, object_type="light"
-        )
+            gray_img=masked_b,
+            threshold=128,
+            max_value=255,
+            object_type="light")
         ab1 = pcv.logical_or(bin_img1=maskeda_thresh, bin_img2=maskedb_thresh)
         ab = pcv.logical_or(bin_img1=maskeda_thresh1, bin_img2=ab1)
         ab_fill = pcv.fill(bin_img=ab, size=200)
@@ -116,8 +117,15 @@ class ImageTransformation:
         return masked2
 
     def roi(self):
-        id_objects, obj_hierarchy = pcv.find_objects(img=self._mask, mask=self._ab_fill)
-        roi1, roi_hierarchy = pcv.roi.rectangle(img=self._mask, x=0, y=0, h=256, w=256)
+        id_objects, obj_hierarchy = pcv.find_objects(
+            img=self._mask,
+            mask=self._ab_fill)
+        roi1, roi_hierarchy = pcv.roi.rectangle(
+            img=self._mask,
+            x=0,
+            y=0,
+            h=256,
+            w=256)
         if self.opt.specific == "all" or self.opt.specific == "roi":
             pcv.params.debug = self.opt.debug
         roi_objects, hierarchy3, kept_mask, obj_area = pcv.roi_objects(
@@ -137,8 +145,9 @@ class ImageTransformation:
 
     def obj_composition(self):
         obj, mask = pcv.object_composition(
-            img=self.image, contours=self._roi_objects, hierarchy=self._hierarchy3
-        )
+            img=self.image,
+            contours=self._roi_objects,
+            hierarchy=self._hierarchy3)
         self._obj = obj
         self._mask2 = mask
         return obj, mask
@@ -156,8 +165,10 @@ class ImageTransformation:
         if self.opt.specific == "all" or self.opt.specific == "colors":
             pcv.params.debug = self.opt.debug
         color_histogram = pcv.analyze_color(
-            rgb_img=self.image, mask=self._kept_mask, colorspaces="all", label="default"
-        )
+            rgb_img=self.image,
+            mask=self._kept_mask,
+            colorspaces="all",
+            label="default")
         pcv.params.debug = None
         self._colors = color_histogram
         return color_histogram
@@ -205,17 +216,24 @@ def get_specific_transformation(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="""This program transform image with multiples transformation techniques.
-        You can see the different ways and option to use the programe correctly."""
+        description="""This program transform image with
+        multiples transformation techniques.
+        You can see the different ways and option
+        to use the programe correctly."""
     )
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
-        "-original", help="Get the original picture.", action="store_true"
-    )
+        "-original",
+        help="Get the original picture.",
+        action="store_true")
     group.add_argument(
-        "-blur", help="Transform the image with a gaussian blur.", action="store_true"
-    )
-    group.add_argument("-mask", help="Print the mask of the leaf.", action="store_true")
+        "-blur",
+        help="Transform the image with a gaussian blur.",
+        action="store_true")
+    group.add_argument(
+        "-mask",
+        help="Print the mask of the leaf.",
+        action="store_true")
     group.add_argument(
         "-roi",
         help="Show the ROI (Region of interest) of the picture.",
@@ -236,11 +254,15 @@ if __name__ == "__main__":
         help="Print the repartition diagram of colors on the image.",
         action="store_true",
     )
-    parser.add_argument("path", type=str, nargs="?", help="The path of a single image.")
+    parser.add_argument(
+        "path",
+        type=str,
+        nargs="?",
+        help="The path of a single image.")
     parser.add_argument(
         "-src",
         nargs=1,
-        help="Transform all images in a folder (you can specify a specific tranformation)",
+        help="Transform all images in a folder (with specific tranformation)",
         type=str,
     )
     parser.add_argument(
@@ -257,7 +279,9 @@ if __name__ == "__main__":
         print("You must specify the destination folder when -src flag is up")
         exit(1)
     elif args.src and args.path:
-        print("You must have only the path of an image or the path of a folder")
+        print(
+            "You must have only the path of"
+            + " an image or the path of a folder")
         exit(1)
     if args.dst:
         dst = Path(args.dst[0])
@@ -275,7 +299,9 @@ if __name__ == "__main__":
         for x in src.iterdir():
             if x.is_dir():
                 print(
-                    "The path is wrong, You must be in the last subfolder containing all the images."
+                    "The path is wrong,"
+                    + "You must be in the last subfolder"
+                    + "containing all the images."
                 )
                 exit(1)
         for x in src.iterdir():
