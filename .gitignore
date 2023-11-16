@@ -6,3 +6,4 @@ validation/
 test_images/
 *.zip
 __pycache__/
+.venv/
